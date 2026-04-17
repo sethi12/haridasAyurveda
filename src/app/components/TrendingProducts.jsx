@@ -47,6 +47,7 @@ export default function TrendingProducts({ products }) {
               className="min-w-[280px] sm:min-w-[300px] md:min-w-[320px] flex-shrink-0 snap-start"
             >
               <ProductCard
+              id={product.id}
                 name={product.name}
                 price={product.price}
                 originalPrice={product.originalPrice}
