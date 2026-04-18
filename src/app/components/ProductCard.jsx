@@ -7,78 +7,144 @@ import { useRouter } from "next/navigation";
 export default function ProductCard({ 
   id,
   name, 
-  price, 
+  priceAfterDiscount, 
   originalPrice, 
-  image, 
+  mainImage, 
   category, 
-  isSale = false, 
+  isOnSale = false, 
   isTrending = false,
-  discount = 0 
 }) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const router = useRouter();
 
-  const finalPrice = discount > 0 
-    ? Math.round(price * (1 - discount / 100)) 
-    : price;
+  const discount =
+    originalPrice && priceAfterDiscount
+      ? Math.round(((originalPrice - priceAfterDiscount) / originalPrice) * 100)
+      : 0;
 
-  const handleCardClick = () => {
+  const goToProduct = () => {
+    if (!id) {
+      console.error("❌ Product ID missing");
+      return;
+    }
     router.push(`/product/${id}`);
   };
 
-  const handleWishlistClick = (e) => {
+  const handleWishlist = (e) => {
     e.stopPropagation();
     setIsWishlisted(!isWishlisted);
   };
 
   return (
-    <div
-      onClick={handleCardClick}
-      className="group relative bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-[#EDE4D4] h-full flex flex-col cursor-pointer"
+    <div 
+      onClick={goToProduct}
+      className="group relative bg-white rounded-[2rem] overflow-hidden border border-[#EDE4D4] h-full flex flex-col cursor-pointer transition-all duration-500 hover:shadow-[0_20px_50px_rgba(27,94,32,0.1)] hover:-translate-y-2"
     >
-      {/* Image Container */}
-      <div className="relative h-52 sm:h-64 md:h-72 lg:h-80 overflow-hidden bg-[#F8F1E9]">
+      {/* IMAGE CONTAINER */}
+      <div className="relative h-64 sm:h-72 md:h-80 overflow-hidden bg-[#FDFBF7]">
         <Image
-          src={image}
+          src={mainImage?.url || "/placeholder.png"}
           alt={name}
           fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
-          sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+          className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
 
-        {/* Badges */}
-        <div className="absolute top-3 right-3 flex flex-col gap-1.5">
-          {isSale && <div className="bg-red-500 text-white text-xs px-3 py-1 rounded-full">SALE</div>}
-          {isTrending && <div className="bg-[#1B5E20] text-white text-xs px-3 py-1 rounded-full">TRENDING</div>}
-          {discount > 0 && <div className="bg-amber-500 text-white text-xs px-3 py-1 rounded-full">-{discount}%</div>}
+        {/* OVERLAY ON HOVER */}
+        <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+        {/* TOP BADGES */}
+        <div className="absolute top-4 left-4 right-4 flex justify-between items-start z-10">
+          <div className="flex flex-col gap-2">
+            {isTrending && (
+              <span className="bg-[#1B5E20]/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full tracking-widest uppercase shadow-sm">
+                Trending
+              </span>
+            )}
+            {isOnSale && (
+              <span className="bg-red-500/90 backdrop-blur-md text-white text-[10px] font-bold px-3 py-1 rounded-full tracking-widest uppercase shadow-sm">
+                Sale
+              </span>
+            )}
+          </div>
+
+          <button
+            onClick={handleWishlist}
+            className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg ${
+              isWishlisted 
+                ? "bg-red-50 text-red-500 scale-110" 
+                : "bg-white/80 backdrop-blur-md text-[#1B5E20] hover:bg-white"
+            }`}
+          >
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              fill={isWishlisted ? "currentColor" : "none"} 
+              viewBox="0 0 24 24" 
+              strokeWidth={1.5} 
+              stroke="currentColor" 
+              className="w-5 h-5"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+            </svg>
+          </button>
         </div>
 
-        {/* Wishlist */}
-        <button
-          onClick={handleWishlistClick}
-          className="absolute top-3 left-3 w-9 h-9 bg-white/90 hover:bg-white rounded-full flex items-center justify-center shadow transition-all active:scale-90 z-10"
-        >
-          {isWishlisted ? "❤️" : "♡"}
-        </button>
+        {/* DISCOUNT TAG (Floating Bottom Right) */}
+        {discount > 0 && (
+          <div className="absolute bottom-4 right-4 bg-amber-500 text-white font-bold text-xs w-12 h-12 rounded-full flex flex-col items-center justify-center shadow-lg transform rotate-12 group-hover:rotate-0 transition-transform duration-500">
+            <span>{discount}%</span>
+            <span className="text-[8px] uppercase tracking-tighter">Off</span>
+          </div>
+        )}
       </div>
 
-      {/* Info */}
-      <div className="flex-1 p-5 flex flex-col">
-        <p className="text-xs text-[#6B7D5E] uppercase tracking-wider">{category}</p>
-        <h3 className="font-serif text-lg font-semibold text-[#1B5E20] mt-2 line-clamp-2">{name}</h3>
-
-        <div className="mt-auto pt-4 flex items-end gap-3">
-          <span className="text-2xl font-semibold text-[#1B5E20]">₹{finalPrice}</span>
-          {originalPrice && originalPrice > finalPrice && (
-            <span className="text-sm text-gray-400 line-through">₹{originalPrice}</span>
-          )}
+      {/* PRODUCT CONTENT */}
+      <div className="flex-1 p-6 flex flex-col bg-white">
+        <div className="flex justify-between items-start mb-2">
+          <span className="text-[10px] font-bold text-[#6B7D5E] uppercase tracking-[0.2em]">
+            {category || "Ayurveda"}
+          </span>
+          <div className="flex gap-0.5 text-amber-400">
+             {"★".repeat(5).split("").map((s, i) => <span key={i} className="text-[10px]">{s}</span>)}
+          </div>
         </div>
 
+        <h3 className="font-serif text-xl font-bold text-[#113B14] leading-tight line-clamp-2 min-h-[3.5rem] group-hover:text-[#1B5E20] transition-colors">
+          {name}
+        </h3>
+
+        {/* PRICE SECTION */}
+        <div className="mt-4 flex items-center gap-3">
+          <div className="flex flex-col">
+            <span className="text-2xl font-serif font-bold text-[#1B5E20]">
+              ₹{priceAfterDiscount}
+            </span>
+            {originalPrice > priceAfterDiscount && (
+              <span className="text-sm text-gray-300 line-through -mt-1">
+                ₹{originalPrice}
+              </span>
+            )}
+          </div>
+          
+          <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-2">
+             <div className="w-2 h-2 rounded-full bg-green-500"></div>
+             <span className="text-[10px] font-bold text-green-600 uppercase tracking-tighter">In Stock</span>
+          </div>
+        </div>
+
+        {/* ACTION BUTTON */}
         <button 
-          onClick={handleCardClick}
-          className="mt-5 w-full bg-[#1B5E20] hover:bg-[#144D17] text-white py-3.5 rounded-2xl font-medium transition-all"
+          onClick={(e) => {
+            e.stopPropagation();
+            goToProduct();
+          }}
+          className="mt-6 w-full relative overflow-hidden group/btn bg-[#1B5E20] text-white py-4 rounded-2xl font-bold text-sm tracking-widest uppercase transition-all duration-300 hover:bg-[#124216] hover:shadow-xl active:scale-95"
         >
-          View Details
+          <span className="relative z-10 flex items-center justify-center gap-2">
+            View Details
+            <svg className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </span>
         </button>
       </div>
     </div>

@@ -9,6 +9,7 @@ import TrendingProducts from "./components/TrendingProducts";
 import WatchAndBuy from "./components/WatchAndBuy";
 import Reviews from "./components/Reviews";
 import Footer from "./components/Footer";
+import useAuth from "@/lib/useAuth";
 
 export default function Home() {
   const saleProducts = [
@@ -82,7 +83,7 @@ export default function Home() {
   ];
 
   const [showAuth, setShowAuth] = useState(false);
-  const [user, setUser] = useState(null);
+ const { user, loading } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleAuthSuccess = (userData) => {
@@ -119,7 +120,7 @@ export default function Home() {
 
             {/* Desktop Nav */}
             <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium">
-              <a href="#" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Shop</a>
+              <a href="/AllProducts" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Shop</a>
               <a href="#" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Herbs & Oils</a>
               <a href="#" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Wellness</a>
               <a href="#" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Consultation</a>

@@ -1,29 +1,43 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
-const bannerSlides = [
-  { id: 1, image: "/banner1.png" },
-  { id: 2, image: "/banner2.png" },
-  { id: 3, image: "/banner3.png" },
-];
+const BASE_URL = "http://localhost:8000";
 
 export default function Banner() {
+  const [banners, setBanners] = useState([]);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
 
-  // Auto-slide every 5 seconds
+  // 🔥 FETCH BANNERS FROM BACKEND
   useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        const res = await fetch(`${BASE_URL}/api/banner/list`);
+        const data = await res.json();
+        setBanners(data.banners || []);
+      } catch (err) {
+        console.error("Banner fetch error:", err);
+      }
+    };
+
+    fetchBanners();
+  }, []);
+
+  // 🔥 AUTO SLIDE
+  useEffect(() => {
+    if (banners.length === 0) return;
+
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
+      setCurrentSlide((prev) => (prev + 1) % banners.length);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [banners]);
 
-  // Touch Swipe Handlers
+  // 🔥 TOUCH HANDLERS
   const handleTouchStart = (e) => {
     setIsDragging(true);
     setStartX(e.touches[0].clientX);
@@ -41,69 +55,77 @@ export default function Banner() {
     setIsDragging(false);
   };
 
+  const nextSlide = () =>
+    setCurrentSlide((prev) => (prev + 1) % banners.length);
+
+  const prevSlide = () =>
+    setCurrentSlide((prev) =>
+      (prev - 1 + banners.length) % banners.length
+    );
+
   const goToSlide = (index) => setCurrentSlide(index);
-  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
-  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + bannerSlides.length) % bannerSlides.length);
+
+  // 🔥 EMPTY STATE
+  if (banners.length === 0) {
+    return (
+      <div className="w-full h-[400px] flex items-center justify-center">
+        Loading banners...
+      </div>
+    );
+  }
 
   return (
-    <div 
-      className="relative w-full h-[400px] overflow-hidden bg-[#1B5E20]"
+    <div
+      className="relative w-full h-[400px] overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Image Slides - Properly Fitted */}
-      {bannerSlides.map((slide, index) => (
+      {/* SLIDES */}
+      {banners.map((banner, index) => (
         <div
-          key={slide.id}
-          className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
+          key={banner.id}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
             index === currentSlide ? "opacity-100" : "opacity-0"
           }`}
         >
           <Image
-            src={slide.image}
-            alt={`Haridas Ayurveda Banner ${index + 1}`}
+            src={banner.imageUrl}
+            alt="Banner"
             fill
-            className="object-cover object-center"   // Best for fitting
+            className="object-cover"
             priority={index === 0}
-            sizes="100vw"
-            style={{ 
-              objectFit: "cover", 
-              objectPosition: "center" 
-            }}
           />
         </div>
       ))}
 
-      {/* Subtle Dark Overlay */}
+      {/* DARK OVERLAY */}
       <div className="absolute inset-0 bg-black/30" />
 
-      {/* Navigation Arrows */}
+      {/* ARROWS */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/40 hover:bg-white/70 backdrop-blur text-white p-3 rounded-full z-30 transition-all active:scale-90 shadow-md"
-        aria-label="Previous slide"
+        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/40 text-white p-3 rounded-full z-30"
       >
         ←
       </button>
 
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/40 hover:bg-white/70 backdrop-blur text-white p-3 rounded-full z-30 transition-all active:scale-90 shadow-md"
-        aria-label="Next slide"
+        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/40 text-white p-3 rounded-full z-30"
       >
         →
       </button>
 
-      {/* Slide Dots */}
+      {/* DOTS */}
       <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex gap-2.5 z-30">
-        {bannerSlides.map((_, index) => (
+        {banners.map((_, index) => (
           <button
             key={index}
             onClick={() => goToSlide(index)}
-            className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-              index === currentSlide 
-                ? "bg-white scale-125 shadow" 
-                : "bg-white/60 hover:bg-white/80"
+            className={`w-2.5 h-2.5 rounded-full ${
+              index === currentSlide
+                ? "bg-white scale-125"
+                : "bg-white/60"
             }`}
           />
         ))}
