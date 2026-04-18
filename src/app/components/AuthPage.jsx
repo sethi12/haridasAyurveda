@@ -17,7 +17,7 @@ export default function AuthPage({ onClose, onSuccess }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const handleAuth = async () => {
     setLoading(true);
     setError("");
@@ -29,7 +29,7 @@ export default function AuthPage({ onClose, onSuccess }) {
         const userCred = await signInWithEmailAndPassword(auth, email, password);
         const token = await userCred.user.getIdToken();
 
-        await fetch("http://localhost:8000/api/auth/verify", {
+        await fetch(`${BASE_URL}/api/auth/verify`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ token }),
@@ -50,7 +50,7 @@ export default function AuthPage({ onClose, onSuccess }) {
         // 🆕 SIGNUP
         const userCred = await createUserWithEmailAndPassword(auth, email, password);
 
-        await fetch("http://localhost:8000/api/user/create", {
+        await fetch(`${BASE_URL}/api/user/create`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({

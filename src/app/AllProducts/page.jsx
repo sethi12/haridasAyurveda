@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function Page() {
   const [products, setProducts] = useState([]);

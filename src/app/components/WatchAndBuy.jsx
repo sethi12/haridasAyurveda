@@ -4,7 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import VideoCard from "../components/VideCard"; // Ensure path is correct
 
-const BASE_URL = "http://localhost:8000";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function WatchAndBuy() {
   const scrollRef = useRef(null);

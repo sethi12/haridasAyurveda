@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import AuthPage from "./components/AuthPage";
 import Banner from "./components/Banner";
 import SaleProducts from "./components/SaleProducts";
@@ -10,213 +11,161 @@ import WatchAndBuy from "./components/WatchAndBuy";
 import Reviews from "./components/Reviews";
 import Footer from "./components/Footer";
 import useAuth from "@/lib/useAuth";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  const saleProducts = [
-    {
-      id: 1,
-      name: "Ashwagandha Root Powder",
-      price: 299,
-      originalPrice: 399,
-      image: "/banner1.jpeg",
-      category: "Herbal Powder",
-      discount: 25
-    },
-    {
-      id: 2,
-      name: "Neem Face Wash",
-      price: 249,
-      originalPrice: 299,
-      image: "/banner3.jpeg",
-      category: "Personal Care",
-      discount: 15
-    },
-    {
-      id: 3,
-      name: "Neem Face Wash",
-      price: 249,
-      originalPrice: 299,
-      image: "/banner2.jpeg",
-      category: "Personal Care",
-      discount: 15
-    },
-    {
-      id: 4,
-      name: "Neem Face Wash",
-      price: 249,
-      originalPrice: 299,
-      image: "/banner1.jpeg",
-      category: "Personal Care",
-      discount: 15
-    },
-  ];
-
-  const trendingProducts = [
-    {
-      id: 9,
-      name: "Triphala Churna",
-      price: 179,
-      image: "/t1.jpeg",
-      category: "Digestive Health"
-    },
-    {
-      id: 10,
-      name: "Triphala Churna",
-      price: 179,
-      image: "/t3.jpeg",
-      category: "Digestive Health"
-    },
-    {
-      id: 11,
-      name: "Triphala Churna",
-      price: 179,
-      image: "/t1.jpeg",
-      category: "Digestive Health"
-    },
-    {
-      id: 12,
-      name: "Triphala Churna",
-      price: 179,
-      image: "/t2.jpeg",
-      category: "Digestive Health"
-    },
-  ];
-
+  const { user } = useAuth();
   const [showAuth, setShowAuth] = useState(false);
- const { user, loading } = useAuth();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleAuthSuccess = (userData) => {
-    setUser(userData);
-    setShowAuth(false);
-  };
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  // ✅ Listen for auth modal trigger from product page
+  useEffect(() => {
+    const handleOpenAuth = () => setShowAuth(true);
+    window.addEventListener("open-auth-modal", handleOpenAuth);
+    return () => window.removeEventListener("open-auth-modal", handleOpenAuth);
+  }, []);
 
-  // WhatsApp Link
-  const whatsappNumber = "9894035739";
-  const whatsappLink = `https://wa.me/${whatsappNumber}`;
+  const navLinks = [
+    { name: "Shop", href: "/AllProducts" },
+    { name: "Categories", href: "/Categories" },
+    { name: "Our Story", href: "/OurStory" },
+    { name: "Contact", href: "/Contact" },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#F8F1E9] font-sans">
-      {/* HEADER */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#EDE4D4] shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 md:py-5">
-          <div className="flex items-center justify-between">
-            
-            {/* Logo */}
-            <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-2xl overflow-hidden shadow-md border border-[#EDE4D4]">
-                <Image src="/logo.jpeg" alt="Haridas Ayurveda" fill className="object-cover" priority />
-              </div>
-              <div className="font-serif">
-                <h1 className="text-xl md:text-2xl font-semibold text-[#1B5E20] tracking-tight">Haridas Ayurveda</h1>
-                <p className="text-[9px] md:text-[10px] text-[#6B7D5E] tracking-[1.5px] hidden sm:block">
-                  ESTD 1998 • PURE • NATURAL
-                </p>
-              </div>
-            </div>
+    <div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white overflow-x-hidden">
 
-            {/* Desktop Nav */}
-            <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium">
-              <a href="/AllProducts" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Shop</a>
-              <a href="#" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Herbs & Oils</a>
-              <a href="#" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Wellness</a>
-              <a href="#" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Consultation</a>
-              <a href="#" className="text-[#4A7043] hover:text-[#1B5E20] transition-colors">Our Story</a>
-            </nav>
-
-            {/* Auth + Mobile Button */}
-            <div className="flex items-center gap-4">
-              {user ? (
-                <div 
-                  onClick={() => alert("Profile menu coming soon 🌿")}
-                  className="flex items-center gap-2.5 cursor-pointer group"
-                >
-                  <div className="w-9 h-9 md:w-10 md:h-10 bg-[#1B5E20] text-white rounded-2xl flex items-center justify-center text-xl shadow-md hover:bg-[#144D17]">
-                    👤
-                  </div>
-                  <div className="hidden sm:block">
-                    <p className="text-sm font-medium text-[#1B5E20]">{user.name}</p>
-                    <p className="text-xs text-[#6B7D5E]">Namaste</p>
-                  </div>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setShowAuth(true)}
-                  className="bg-[#1B5E20] hover:bg-[#144D17] text-white px-5 py-2.5 md:px-7 md:py-3 rounded-2xl font-medium transition-all shadow-md"
-                >
-                  Login / Signup
-                </button>
-              )}
-
-              <button
-                onClick={toggleMobileMenu}
-                className="md:hidden p-2 text-[#1B5E20] hover:bg-[#F1F5E9] rounded-xl"
-              >
-                <span className="text-3xl">{isMobileMenuOpen ? "✕" : "☰"}</span>
-              </button>
-            </div>
+      {/* WHATSAPP FLOATING BUTTON */}
+      <a
+        href="https://wa.me/919896035739"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed bottom-6 right-6 z-[150] group"
+      >
+        <div className="relative">
+          <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20" />
+          <div className="relative bg-[#25D366] text-white p-3.5 rounded-full shadow-2xl transition-all hover:scale-110">
+            <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.29-4.171c1.589.943 3.161 1.417 4.79 1.417 5.432 0 9.851-4.419 9.851-9.85 0-2.636-1.026-5.113-2.89-6.976-1.864-1.864-4.341-2.891-6.976-2.891-5.433 0-9.854 4.421-9.854 9.853 0 2.012.56 3.541 1.621 5.143l-1.065 3.89 4.023-1.056zm11.233-7.143c-.301-.15-1.78-.879-2.056-.979-.275-.1-.475-.15-.675.15-.2.3-.775.979-.95 1.179-.175.2-.35.225-.651.075-.301-.15-1.27-.468-2.42-1.493-.895-.799-1.5-1.786-1.675-2.086-.175-.3-.018-.463.13-.611.134-.133.301-.351.451-.526.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.675-1.625-.925-2.225-.244-.588-.493-.508-.675-.518-.175-.009-.375-.01-.575-.01-.2 0-.525.075-.8.375-.275.3-1.05 1.026-1.05 2.503 0 1.478 1.075 2.903 1.225 3.103.15.2 2.115 3.23 5.125 4.531.716.309 1.275.494 1.71.633.72.228 1.375.196 1.892.118.577-.088 1.78-.727 2.03-1.428.25-.7.25-1.3.175-1.428-.075-.125-.275-.2-.575-.35z" />
+            </svg>
           </div>
         </div>
+      </a>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-[#EDE4D4] bg-white">
-            <div className="px-6 py-8 flex flex-col gap-6 text-lg font-medium">
-              {["Shop", "Herbs & Oils", "Wellness", "Consultation", "Our Story"].map((item) => (
-                <a key={item} href="#" onClick={closeMobileMenu} className="text-[#4A7043] hover:text-[#1B5E20] py-2">
-                  {item}
-                </a>
-              ))}
+      {/* HEADER */}
+      <header className={`sticky top-0 z-[100] transition-all duration-500 ${scrolled ? "py-3 bg-white/80 backdrop-blur-xl border-b shadow-sm" : "py-5 bg-transparent"}`}>
+        <div className="max-w-7xl mx-auto px-5 flex items-center justify-between">
+
+          <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 text-[#1B5E20]">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M4 8h16M4 16h16" />
+            </svg>
+          </button>
+
+          <Link href="/" className="flex items-center gap-2 absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+            <div className="relative w-8 h-8 md:w-10 md:h-10 rounded-lg overflow-hidden border">
+              <Image src="/logo.jpeg" alt="Logo" fill className="object-cover" />
             </div>
+            <h1 className="text-xl md:text-2xl font-serif font-bold text-[#113B14]">Haridas Ayurveda</h1>
+          </Link>
+
+          <nav className="hidden md:flex items-center gap-1">
+            {navLinks.map((link) => (
+              <Link key={link.name} href={link.href} className="px-4 py-2 text-[11px] font-bold text-[#113B14] uppercase tracking-widest hover:bg-white/50 rounded-lg transition-all">
+                {link.name}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            {user ? (
+              <div className="flex items-center gap-2 bg-white/50 px-3 py-1.5 rounded-full border border-white/40 shadow-sm">
+                <div className="w-7 h-7 bg-[#1B5E20] text-white rounded-full flex items-center justify-center text-xs">👤</div>
+                <span className="hidden sm:inline text-[10px] font-bold text-[#113B14] uppercase">
+                  {user.displayName || "Namaste"}
+                </span>
+              </div>
+            ) : (
+              <button
+                onClick={() => setShowAuth(true)}
+                className="text-[10px] font-bold uppercase tracking-widest bg-[#1B5E20] text-white px-6 py-2.5 rounded-xl shadow-lg shadow-[#1B5E20]/20 transition-all hover:-translate-y-0.5"
+              >
+                Join
+              </button>
+            )}
           </div>
-        )}
+        </div>
       </header>
 
-      {/* Main Content */}
-      <Banner />
-      <SaleProducts products={saleProducts} />
-      <TrendingProducts products={trendingProducts} />
-      <WatchAndBuy />
-      <Reviews />
+      {/* MOBILE NAV */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 bg-[#113B14]/20 backdrop-blur-sm z-[110]"
+            />
+            <motion.div
+              initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }}
+              className="fixed inset-y-0 left-0 w-[80%] max-w-sm bg-white z-[120] p-8 flex flex-col shadow-2xl"
+            >
+              <button onClick={() => setMobileMenuOpen(false)} className="self-end mb-8 text-[#1B5E20]">✕</button>
+              {navLinks.map((link) => (
+                <Link key={link.name} href={link.href} onClick={() => setMobileMenuOpen(false)} className="text-2xl font-serif mb-6 text-[#113B14]">
+                  {link.name}
+                </Link>
+              ))}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      <main className="relative z-10">
+        <Banner />
+        <div className="space-y-16 py-10">
+          <SaleProducts />
+          <TrendingProducts />
+          <WatchAndBuy />
+          <Reviews />
+        </div>
+      </main>
+
       <Footer />
 
       {/* AUTH MODAL */}
-      {showAuth && (
-        <div 
-          className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-[100] p-4"
-          onClick={() => setShowAuth(false)}
-        >
-          <div className="relative w-full max-w-md" onClick={(e) => e.stopPropagation()}>
-            <AuthPage 
-              onClose={() => setShowAuth(false)}
-              onSuccess={handleAuthSuccess}
-            />
-          </div>
-        </div>
-      )}
+      <AnimatePresence>
+        {showAuth && (
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-[#113B14]/40 backdrop-blur-xl flex items-center justify-center z-[200] p-4"
+            onClick={() => setShowAuth(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9 }} animate={{ scale: 1 }} exit={{ scale: 0.9 }}
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-md"
+            >
+              <AuthPage
+                onClose={() => setShowAuth(false)}
+                onSuccess={() => setShowAuth(false)}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* Floating WhatsApp Button */}
-      <a
-        href={`https://wa.me/9894035739`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-[90] bg-[#25D366] hover:bg-[#20ba5a] text-white w-14 h-14 rounded-full flex items-center justify-center shadow-2xl transition-all hover:scale-110 active:scale-95"
-        aria-label="Chat on WhatsApp"
-      >
-        <svg 
-          xmlns="http://www.w3.org/2000/svg" 
-          width="28" 
-          height="28" 
-          fill="currentColor" 
-          viewBox="0 0 24 24"
-        >
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.198.297-.767.966-.94 1.164-.173.198-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.485-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.372-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.372-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-          <path d="M12 2C6.48 2 2 6.59 2 12.253c0 2.85 1.05 5.46 2.79 7.45L2 22l2.58-2.58C7.05 21.15 9.5 22 12 22c5.52 0 10-4.59 10-10.253C22 6.59 17.52 2 12 2zm0 18c-2.14 0-4.1-.74-5.66-1.97l-.4-.3-2.1 2.1.3-.4C5.74 17.9 4 15.1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z"/>
-        </svg>
-      </a>
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+      `}</style>
     </div>
   );
 }
