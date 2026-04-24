@@ -80,6 +80,13 @@ export default function Footer() {
               <li><Link href="/Contact" className="hover:text-white transition-colors">Contact Us</Link></li>
             </ul>
           </div>
+             <div>
+            <h4 className="text-white font-bold text-sm uppercase tracking-widest mb-6">Policies</h4>
+            <ul className="space-y-3 text-[#A3D9A3] text-sm">
+              <li><Link href="/" className="hover:text-white transition-colors">Terms and Conditions</Link></li>
+              <li><Link href="/" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+            </ul>
+          </div>
 
           {/* Support & Contact */}
           <div>
@@ -111,10 +118,10 @@ export default function Footer() {
             <span className="text-white font-bold tracking-widest">INBREDTECHNO</span>
           </div>
 
-          <div className="flex gap-6">
+          {/* <div className="flex gap-6">
             <Link href="#" className="hover:text-white transition">Privacy</Link>
             <Link href="#" className="hover:text-white transition">Terms</Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </footer>

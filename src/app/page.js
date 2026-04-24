@@ -37,27 +37,40 @@ export default function Home() {
     { name: "Categories", href: "/Categories" },
     { name: "Our Story", href: "/OurStory" },
     { name: "Contact", href: "/Contact" },
+    { name: "Blog", href: "/" },
   ];
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white overflow-x-hidden">
+ <marquee class="marq" bgcolor="Green" 
+                 direction="left" loop="">
+            <div className="text-white">
+                Haridas Ayurveda
+            </div>
 
+        </marquee>
       {/* WHATSAPP FLOATING BUTTON */}
-      <a
-        href="https://wa.me/919896035739"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-[150] group"
-      >
-        <div className="relative">
-          <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20" />
-          <div className="relative bg-[#25D366] text-white p-3.5 rounded-full shadow-2xl transition-all hover:scale-110">
-            <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
-              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.29-4.171c1.589.943 3.161 1.417 4.79 1.417 5.432 0 9.851-4.419 9.851-9.85 0-2.636-1.026-5.113-2.89-6.976-1.864-1.864-4.341-2.891-6.976-2.891-5.433 0-9.854 4.421-9.854 9.853 0 2.012.56 3.541 1.621 5.143l-1.065 3.89 4.023-1.056zm11.233-7.143c-.301-.15-1.78-.879-2.056-.979-.275-.1-.475-.15-.675.15-.2.3-.775.979-.95 1.179-.175.2-.35.225-.651.075-.301-.15-1.27-.468-2.42-1.493-.895-.799-1.5-1.786-1.675-2.086-.175-.3-.018-.463.13-.611.134-.133.301-.351.451-.526.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.675-1.625-.925-2.225-.244-.588-.493-.508-.675-.518-.175-.009-.375-.01-.575-.01-.2 0-.525.075-.8.375-.275.3-1.05 1.026-1.05 2.503 0 1.478 1.075 2.903 1.225 3.103.15.2 2.115 3.23 5.125 4.531.716.309 1.275.494 1.71.633.72.228 1.375.196 1.892.118.577-.088 1.78-.727 2.03-1.428.25-.7.25-1.3.175-1.428-.075-.125-.275-.2-.575-.35z" />
-            </svg>
-          </div>
-        </div>
-      </a>
+     <a
+  href="https://wa.me/919896035739"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="fixed bottom-6 right-6 z-[150] group flex flex-col items-center"
+>
+  {/* Blinking Enquiry Tag */}
+  <span className="mb-2 text-[11px] font-semibold text-[#25D366] bg-white px-2 py-1 rounded-full shadow animate-pulse">
+    Enquiry
+  </span>
+
+  <div className="relative">
+    <div className="absolute inset-0 bg-green-500 rounded-full animate-ping opacity-20" />
+    
+    <div className="relative bg-[#25D366] text-white p-3.5 rounded-full shadow-2xl transition-all hover:scale-110">
+      <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
+        <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.246 2.248 3.484 5.232 3.484 8.412-.003 6.557-5.338 11.892-11.893 11.892-1.997-.001-3.951-.5-5.688-1.448l-6.309 1.656zm6.29-4.171c1.589.943 3.161 1.417 4.79 1.417 5.432 0 9.851-4.419 9.851-9.85 0-2.636-1.026-5.113-2.89-6.976-1.864-1.864-4.341-2.891-6.976-2.891-5.433 0-9.854 4.421-9.854 9.853 0 2.012.56 3.541 1.621 5.143l-1.065 3.89 4.023-1.056zm11.233-7.143c-.301-.15-1.78-.879-2.056-.979-.275-.1-.475-.15-.675.15-.2.3-.775.979-.950 1.179-.175.2-.35.225-.651.075-.301-.15-1.27-.468-2.42-1.493-.895-.799-1.5-1.786-1.675-2.086-.175-.3-.018-.463.13-.611.134-.133.301-.351.451-.526.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.675-1.625-.925-2.225-.244-.588-.493-.508-.675-.518-.175-.009-.375-.01-.575-.01-.2 0-.525.075-.8.375-.275.3-1.05 1.026-1.05 2.503 0 1.478 1.075 2.903 1.225 3.103.15.2 2.115 3.23 5.125 4.531.716.309 1.275.494 1.71.633.72.228 1.375.196 1.892.118.577-.088 1.78-.727 2.03-1.428.25-.7.25-1.3.175-1.428-.075-.125-.275-.2-.575-.35z" />
+      </svg>
+    </div>
+  </div>
+</a>
 
       {/* HEADER */}
       <header className={`sticky top-0 z-[100] transition-all duration-500 ${scrolled ? "py-3 bg-white/80 backdrop-blur-xl border-b shadow-sm" : "py-5 bg-transparent"}`}>
