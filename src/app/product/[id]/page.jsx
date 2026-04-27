@@ -25,110 +25,232 @@ export default function ProductDetails() {
   // =========================
   // FETCH CART
   // =========================
+
+
   const fetchCart = async () => {
-    try {
-      const res = await fetch(
-        userId
-          ? `${BASE_URL}/api/cart/${userId}`
-          : `${BASE_URL}/api/cart`,
-        {
-          credentials: "include",
-        }
-      );
-      const data = await res.json();
-      setCartItems(data.items || []);
-    } catch (err) {
-      console.error("Cart fetch error:", err);
-    }
-  };
+  try {
+    const cartId = localStorage.getItem("cartId");
 
-  // =========================
-  // UPDATE QUANTITY
-  // =========================
-  const updateQuantity = async (productId, newQty) => {
-    if (newQty < 1) return;
-
-    await fetch(
-      userId
-        ? `${BASE_URL}/api/cart/${userId}/${productId}`
-        : `${BASE_URL}/api/cart/${productId}`,
-      {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({ quantity: newQty }),
-      }
-    );
-
-    fetchCart();
-  };
-
-  // =========================
-  // REMOVE ITEM
-  // =========================
-  const removeItem = async (productId) => {
-    await fetch(
-      userId
-        ? `${BASE_URL}/api/cart/${userId}/${productId}`
-        : `${BASE_URL}/api/cart/${productId}`,
-      {
-        method: "DELETE",
-        credentials: "include",
-      }
-    );
-
-    setCartItems((prev) => prev.filter((i) => i.productId !== productId));
-  };
-
-  // =========================
-  // CLEAR CART
-  // =========================
-  const clearCart = async () => {
-    await fetch(
+    const res = await fetch(
       userId
         ? `${BASE_URL}/api/cart/${userId}`
         : `${BASE_URL}/api/cart`,
       {
-        method: "DELETE",
-        credentials: "include",
+        headers: {
+          "x-cart-id": cartId || "", // 🔥 send cartId
+        },
       }
     );
+    if (!res.ok) {
+  console.error("Cart fetch failed");
+  return;
+}
 
-    setCartItems([]);
-  };
+    const data = await res.json();
+    setCartItems(data.items || []);
+  } catch (err) {
+    console.error("Cart fetch error:", err);
+  }
+};
+  // const fetchCart = async () => {
+  //   try {
+  //     const res = await fetch(
+  //       userId
+  //         ? `${BASE_URL}/api/cart/${userId}`
+  //         : `${BASE_URL}/api/cart`,
+  //       {
+  //         credentials: "include",
+  //       }
+  //     );
+  //     const data = await res.json();
+  //     setCartItems(data.items || []);
+  //   } catch (err) {
+  //     console.error("Cart fetch error:", err);
+  //   }
+  // };
+
+  // =========================
+  // UPDATE QUANTITY
+  // =========================
+
+  const updateQuantity = async (productId, newQty) => {
+  if (newQty < 1) return;
+
+  const cartId = localStorage.getItem("cartId");
+
+  await fetch(
+    userId
+      ? `${BASE_URL}/api/cart/${userId}/${productId}`
+      : `${BASE_URL}/api/cart/${productId}`,
+    {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "x-cart-id": cartId || "", // ✅ ADD THIS
+      },
+      body: JSON.stringify({ quantity: newQty }),
+    }
+  );
+
+  fetchCart();
+};
+  // const updateQuantity = async (productId, newQty) => {
+  //   if (newQty < 1) return;
+
+  //   await fetch(
+  //     userId
+  //       ? `${BASE_URL}/api/cart/${userId}/${productId}`
+  //       : `${BASE_URL}/api/cart/${productId}`,
+  //     {
+  //       method: "PATCH",
+  //       headers: { "Content-Type": "application/json" },
+  //       credentials: "include",
+  //       body: JSON.stringify({ quantity: newQty }),
+  //     }
+  //   );
+
+  //   fetchCart();
+  // };
+
+  // =========================
+  // REMOVE ITEM
+  // =========================
+
+  const removeItem = async (productId) => {
+  const cartId = localStorage.getItem("cartId");
+
+  await fetch(
+    userId
+      ? `${BASE_URL}/api/cart/${userId}/${productId}`
+      : `${BASE_URL}/api/cart/${productId}`,
+    {
+      method: "DELETE",
+      headers: {
+        "x-cart-id": cartId || "", // ✅ ADD THIS
+      },
+    }
+  );
+
+  setCartItems((prev) => prev.filter((i) => i.productId !== productId));
+};
+  // const removeItem = async (productId) => {
+  //   await fetch(
+  //     userId
+  //       ? `${BASE_URL}/api/cart/${userId}/${productId}`
+  //       : `${BASE_URL}/api/cart/${productId}`,
+  //     {
+  //       method: "DELETE",
+  //       credentials: "include",
+  //     }
+  //   );
+
+  //   setCartItems((prev) => prev.filter((i) => i.productId !== productId));
+  // };
+
+  // =========================
+  // CLEAR CART
+  // =========================
+
+
+  const clearCart = async () => {
+  const cartId = localStorage.getItem("cartId");
+
+  await fetch(
+    userId
+      ? `${BASE_URL}/api/cart/${userId}`
+      : `${BASE_URL}/api/cart`,
+    {
+      method: "DELETE",
+      headers: {
+        "x-cart-id": cartId || "", // ✅ ADD THIS
+      },
+    }
+  );
+
+  setCartItems([]);
+};
+  // const clearCart = async () => {
+  //   await fetch(
+  //     userId
+  //       ? `${BASE_URL}/api/cart/${userId}`
+  //       : `${BASE_URL}/api/cart`,
+  //     {
+  //       method: "DELETE",
+  //       credentials: "include",
+  //     }
+  //   );
+
+  //   setCartItems([]);
+  // };
 
   // =========================
   // ADD TO CART
   // =========================
+  // const addToCart = useCallback(async () => {
+  //   try {
+  //     const res = await fetch(`${BASE_URL}/api/cart/add`, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       credentials: "include",
+  //       body: JSON.stringify({
+  //         userId: userId || null,
+  //         product: {
+  //           id: product.id,
+  //           name: product.name,
+  //           priceAfterDiscount: product.priceAfterDiscount,
+  //           mainImage: product.mainImage,
+  //           quantity,
+  //         },
+  //       }),
+  //     });
+
+  //     if (!res.ok) {
+  //       console.error("Add to cart failed");
+  //       return;
+  //     }
+
+  //     await fetchCart();
+  //     setCartOpen(true);
+  //   } catch (err) {
+  //     console.error("Cart error:", err);
+  //   }
+  // }, [product, quantity, userId]);
+
   const addToCart = useCallback(async () => {
-    try {
-      const res = await fetch(`${BASE_URL}/api/cart/add`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify({
-          userId: userId || null,
-          product: {
-            id: product.id,
-            name: product.name,
-            priceAfterDiscount: product.priceAfterDiscount,
-            mainImage: product.mainImage,
-            quantity,
-          },
-        }),
-      });
+  try {
+    const existingCartId = localStorage.getItem("cartId");
 
-      if (!res.ok) {
-        console.error("Add to cart failed");
-        return;
-      }
+    const res = await fetch(`${BASE_URL}/api/cart/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-cart-id": existingCartId || "", // 🔥 send cartId
+      },
+      body: JSON.stringify({
+        userId: userId || null,
+        product: {
+          id: product.id,
+          name: product.name,
+          priceAfterDiscount: product.priceAfterDiscount,
+          mainImage: product.mainImage,
+          quantity,
+        },
+      }),
+    });
 
-      await fetchCart();
-      setCartOpen(true);
-    } catch (err) {
-      console.error("Cart error:", err);
+    const data = await res.json();
+
+    // 🔥 SAVE cartId (VERY IMPORTANT)
+    if (data.cartId) {
+      localStorage.setItem("cartId", data.cartId);
     }
-  }, [product, quantity, userId]);
+
+    await fetchCart();
+    setCartOpen(true);
+  } catch (err) {
+    console.error("Cart error:", err);
+  }
+}, [product, quantity, userId]);
 
   const handleAddToCart = () => addToCart();
 
