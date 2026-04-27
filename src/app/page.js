@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white overflow-x-hidden">
- <marquee class="marq" bgcolor="Green" 
+ <marquee  bgcolor="Green" 
                  direction="left" loop="">
             <div className="text-white">
                 Haridas Ayurveda

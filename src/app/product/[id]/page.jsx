@@ -416,9 +416,12 @@ export default function ProductDetails() {
             </div>
 
             <div className="flex flex-col gap-3">
-              <button className="w-full bg-[#1B5E20] text-white py-4 rounded-xl font-bold text-xs uppercase tracking-[0.2em] shadow-lg shadow-[#1B5E20]/20 hover:bg-[#124216] transition-all">
-                Proceed to Checkout
-              </button>
+          <button
+  onClick={() => router.push("/checkout")}
+  className="w-full bg-[#1B5E20] text-white py-4 rounded-xl font-bold text-xs uppercase tracking-[0.2em] shadow-lg shadow-[#1B5E20]/20 hover:bg-[#124216] transition-all"
+>
+  Proceed to Checkout
+</button>
               <button 
                 onClick={clearCart}
                 className="w-full py-2 text-[9px] font-bold uppercase tracking-[0.3em] text-[#7F8C81] hover:text-red-500 transition-colors"
@@ -614,9 +617,9 @@ export default function ProductDetails() {
                   </button>
 
                   <div className="flex gap-2">
-                    <button className="hidden sm:flex px-6 items-center justify-center border border-[#1B5E20] text-[#1B5E20] rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-green-50 transition-all">
+                    {/* <button className="hidden sm:flex px-6 items-center justify-center border border-[#1B5E20] text-[#1B5E20] rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-green-50 transition-all">
                       Buy Now
-                    </button>
+                    </button> */}
                     <button
                       onClick={() => setIsWishlisted(!isWishlisted)}
                       className={`p-4 rounded-xl border transition-all ${
