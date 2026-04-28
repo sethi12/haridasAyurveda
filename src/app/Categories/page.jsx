@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link"; // 🔥 Import Link
 import { motion } from "framer-motion";
 
+
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function CategoriesPage() {
@@ -45,32 +46,44 @@ export default function CategoriesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white px-5 md:px-10 py-16 relative overflow-hidden">
-      
-      {/* GLASSMORPHISM BACKGROUND ACCENTS */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-5%] w-[50%] h-[40%] rounded-full bg-[#1B5E20]/5 blur-[100px]" />
-        <div className="absolute bottom-[-5%] left-[-5%] w-[40%] h-[40%] rounded-full bg-amber-100/20 blur-[100px]" />
-      </div>
+<div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white px-5 md:px-10 py-16 relative overflow-hidden">
+  
+  {/* BACK TO HOME BUTTON */}
+  <div className="fixed top-2 left-8 z-[60]">
+    <Link
+      href="/"
+      className="group flex items-center gap-3 bg-white/40 backdrop-blur-md border border-white/40 px-5 py-2.5 rounded-2xl text-[#113B14] transition-all hover:bg-white/60 hover:shadow-lg hover:shadow-[#1B5E20]/5 active:scale-95"
+    >
+      <span className="text-lg transition-transform group-hover:-translate-x-1">
+        ←
+      </span>
+      <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
+        Home
+      </span>
+    </Link>
+  </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        
-        {/* HEADER SECTION */}
-        <header className="mb-16 text-center md:text-left">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-4xl md:text-6xl font-serif font-bold text-[#113B14] tracking-tight">
-              Our <span className="font-light italic text-[#1B5E20]/70">Collections</span>
-            </h1>
-            <p className="text-[#6B7D5E] mt-4 text-lg font-medium tracking-wide uppercase text-xs">
-              Curated Ayurvedic Rituals for your Wellbeing
-            </p>
-            <div className="h-1 w-20 bg-[#1B5E20] mt-6 mx-auto md:mx-0 rounded-full opacity-20" />
-          </motion.div>
-        </header>
+  {/* GLASSMORPHISM BACKGROUND ACCENTS */}
+  <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div className="absolute top-[-10%] right-[-5%] w-[50%] h-[40%] rounded-full bg-[#1B5E20]/5 blur-[100px]" />
+    <div className="absolute bottom-[-5%] left-[-5%] w-[40%] h-[40%] rounded-full bg-amber-100/20 blur-[100px]" />
+  </div>
+
+  <div className="max-w-7xl mx-auto relative z-10">
+    
+    {/* HEADER SECTION */}
+    <header className="mb-16 text-center md:text-left mt-12 md:mt-0">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="text-4xl md:text-6xl font-serif font-bold text-[#113B14] tracking-tight">
+          Our <span className="font-light italic text-[#1B5E20]/70">Collections</span>
+        </h1>
+        {/* ... rest of your header code ... */}
+      </motion.div>
+    </header>
 
         {/* CATEGORY GRID */}
         {categories.length === 0 ? (

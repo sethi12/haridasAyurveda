@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-
+import Link from "next/link";
 export default function OurStory() {
   const chapters = [
     {
@@ -51,32 +51,47 @@ export default function OurStory() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white px-5 md:px-10 py-16 md:py-24 relative overflow-hidden">
-      
-      {/* GLASSMORPHISM BACKGROUND ACCENTS */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#1B5E20]/5 blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[60%] rounded-full bg-amber-100/20 blur-[100px]" />
-      </div>
+<div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white px-5 md:px-10 py-16 md:py-24 relative overflow-hidden">
+  
+  {/* BACK TO HOME BUTTON */}
+  <div className="fixed top-8 left-8 z-[60]">
+    <Link
+      href="/"
+      className="group flex items-center gap-3 bg-white/40 backdrop-blur-md border border-white/40 px-5 py-2.5 rounded-2xl text-[#113B14] shadow-sm transition-all hover:bg-white/60 hover:shadow-lg hover:shadow-[#1B5E20]/5 active:scale-95"
+    >
+      <span className="text-lg transition-transform group-hover:-translate-x-1">
+        ←
+      </span>
+      <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
+        Home
+      </span>
+    </Link>
+  </div>
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        
-        {/* HERO SECTION */}
-        <header className="mb-24 text-center">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={textVariant}
-          >
-            <span className="text-[10px] md:text-xs font-bold text-[#1B5E20] uppercase tracking-[0.3em] mb-3 block">
-              The Chronicle of
-            </span>
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#113B14] leading-tight tracking-tight">
-              Haridas <span className="font-light italic text-[#1B5E20]/70">Ayurveda</span>
-            </h1>
-            <div className="h-1 w-24 bg-[#1B5E20] mt-8 mx-auto rounded-full opacity-20" />
-          </motion.div>
-        </header>
+  {/* GLASSMORPHISM BACKGROUND ACCENTS */}
+  <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-[#1B5E20]/5 blur-[120px]" />
+    <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[60%] rounded-full bg-amber-100/20 blur-[100px]" />
+  </div>
+
+  <div className="max-w-7xl mx-auto relative z-10">
+    
+    {/* HERO SECTION */}
+    <header className="mb-24 text-center mt-12 md:mt-0">
+      <motion.div
+        initial="hidden"
+        animate="visible"
+        variants={textVariant}
+      >
+        <span className="text-[10px] md:text-xs font-bold text-[#1B5E20] uppercase tracking-[0.3em] mb-3 block">
+          The Chronicle of
+        </span>
+        <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#113B14] leading-tight tracking-tight">
+          Haridas <span className="font-light italic text-[#1B5E20]/70">Ayurveda</span>
+        </h1>
+        <div className="h-1 w-24 bg-[#1B5E20] mt-8 mx-auto rounded-full opacity-20" />
+      </motion.div>
+    </header>
 
         {/* STORY CHAPTERS */}
         <div className="space-y-24 md:space-y-32">

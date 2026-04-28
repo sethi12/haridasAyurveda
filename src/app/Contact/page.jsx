@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-
+import Link from "next/link";
 export default function ContactPage() {
   const contactDetails = [
     {
@@ -44,34 +44,49 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white relative overflow-hidden flex flex-col justify-center py-20 px-5">
-      
-      {/* BACKGROUND ELEMENTS */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] rounded-full bg-[#1B5E20]/5 blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-amber-200/10 blur-[100px]" />
-      </div>
+<div className="min-h-screen bg-[#FDFBF7] text-[#2C3B2E] selection:bg-[#1B5E20] selection:text-white relative overflow-hidden flex flex-col justify-center py-20 px-5">
+  
+  {/* BACK TO HOME BUTTON */}
+  <div className="fixed top-8 left-8 z-50">
+    <Link
+      href="/"
+      className="group flex items-center gap-3 bg-white/40 backdrop-blur-md border border-white/40 px-5 py-2.5 rounded-2xl text-[#113B14] transition-all hover:bg-white/60 hover:shadow-lg hover:shadow-[#1B5E20]/5 active:scale-95"
+    >
+      <span className="text-lg transition-transform group-hover:-translate-x-1">
+        ←
+      </span>
+      <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
+        Home
+      </span>
+    </Link>
+  </div>
 
-      <div className="max-w-5xl mx-auto w-full relative z-10">
-        
-        {/* HEADER */}
-        <header className="text-center mb-16">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <span className="text-[10px] md:text-xs font-bold text-[#1B5E20] uppercase tracking-[0.4em] mb-4 block">
-              Connect With Us
-            </span>
-            <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#113B14] leading-tight">
-              Get in <span className="font-light italic text-[#1B5E20]/70">Touch</span>
-            </h1>
-            <p className="text-[#647466] mt-6 text-lg max-w-xl mx-auto font-light">
-              Whether you seek guidance on your wellness journey or have a query about our rituals, our team is here to help.
-            </p>
-          </motion.div>
-        </header>
+  {/* BACKGROUND ELEMENTS */}
+  <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div className="absolute top-[-10%] left-[-10%] w-[70%] h-[70%] rounded-full bg-[#1B5E20]/5 blur-[120px]" />
+    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-amber-200/10 blur-[100px]" />
+  </div>
+
+  <div className="max-w-5xl mx-auto w-full relative z-10">
+    
+    {/* HEADER */}
+    <header className="text-center mb-16">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        <span className="text-[10px] md:text-xs font-bold text-[#1B5E20] uppercase tracking-[0.4em] mb-4 block">
+          Connect With Us
+        </span>
+        <h1 className="text-5xl md:text-7xl font-serif font-bold text-[#113B14] leading-tight">
+          Get in <span className="font-light italic text-[#1B5E20]/70">Touch</span>
+        </h1>
+        <p className="text-[#647466] mt-6 text-lg max-w-xl mx-auto font-light">
+          Whether you seek guidance on your wellness journey or have a query about our rituals, our team is here to help.
+        </p>
+      </motion.div>
+    </header>
 
         {/* CONTACT CARDS GRID */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

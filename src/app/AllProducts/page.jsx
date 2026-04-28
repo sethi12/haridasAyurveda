@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-
+import Link from "next/link";
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function Page() {
@@ -41,37 +41,52 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] selection:bg-[#1B5E20]/10">
-      
-      {/* DECORATIVE BACKGROUND ELEMENT */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1B5E20]/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[100px] -z-10 pointer-events-none" />
+<div className="min-h-screen bg-[#FDFBF7] selection:bg-[#1B5E20]/10 relative overflow-hidden">
+  
+  {/* BACK TO HOME BUTTON */}
+  <div className="fixed top-2 left-8 z-50">
+    <Link
+      href="/"
+      className="group flex items-center gap-3 bg-white/40 backdrop-blur-md border border-white/40 px-5 py-2.5 rounded-2xl text-[#113B14] transition-all hover:bg-white/60 hover:shadow-lg hover:shadow-[#1B5E20]/5 active:scale-95"
+    >
+      <span className="text-lg transition-transform group-hover:-translate-x-1">
+        ←
+      </span>
+      <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
+        Home
+      </span>
+    </Link>
+  </div>
 
-      <div className="max-w-7xl mx-auto py-16 px-6 lg:px-8">
-        
-        {/* HEADER SECTION */}
-        <header className="mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <div className="space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="w-8 h-[2px] bg-[#1B5E20]" />
-              <span className="text-[10px] font-bold text-[#1B5E20] uppercase tracking-[0.3em]">
-                Authentic Ayurveda
-              </span>
-            </div>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#113B14]">
-              Our Formulations
-            </h1>
-            <p className="text-[#647466] max-w-lg font-medium">
-              Handcrafted remedies designed to harmonize your mind, body, and spirit using ancient Himalayan secrets.
-            </p>
-          </div>
+  {/* DECORATIVE BACKGROUND ELEMENT */}
+  <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#1B5E20]/5 rounded-full blur-[120px] -z-10 pointer-events-none" />
+  <div className="absolute bottom-0 left-0 w-[300px] h-[300px] bg-amber-500/5 rounded-full blur-[100px] -z-10 pointer-events-none" />
 
-          <div className="flex items-center gap-4">
-            <span className="text-sm font-bold text-[#113B14] bg-white px-5 py-2.5 rounded-full border border-[#EDE4D4] shadow-sm">
-              {products.length} Products
-            </span>
-          </div>
-        </header>
+  <div className="max-w-7xl mx-auto py-16 px-6 lg:px-8">
+    
+    {/* HEADER SECTION - Added mt-12 for mobile spacing */}
+    <header className="mb-16 mt-12 md:mt-0 flex flex-col md:flex-row md:items-end justify-between gap-6">
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="w-8 h-[2px] bg-[#1B5E20]" />
+          <span className="text-[10px] font-bold text-[#1B5E20] uppercase tracking-[0.3em]">
+            Authentic Ayurveda
+          </span>
+        </div>
+        <h1 className="text-4xl md:text-5xl font-serif font-bold text-[#113B14]">
+          Our Formulations
+        </h1>
+        <p className="text-[#647466] max-w-lg font-medium">
+          Handcrafted remedies designed to harmonize your mind, body, and spirit using ancient Himalayan secrets.
+        </p>
+      </div>
+
+      <div className="flex items-center gap-4">
+        <span className="text-sm font-bold text-[#113B14] bg-white px-5 py-2.5 rounded-full border border-[#EDE4D4] shadow-sm">
+          {products.length} Products
+        </span>
+      </div>
+    </header>
 
         {/* PRODUCTS GRID */}
         {products.length === 0 ? (
