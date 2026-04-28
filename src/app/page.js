@@ -37,7 +37,7 @@ export default function Home() {
     { name: "Categories", href: "/Categories" },
     { name: "Our Story", href: "/OurStory" },
     { name: "Contact", href: "/Contact" },
-    { name: "Blog", href: "/" },
+    { name: "Blog", href: "/blog" },
   ];
 
   return (
