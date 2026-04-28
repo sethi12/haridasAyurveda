@@ -24,6 +24,30 @@ export default async function BlogDetails({ params }) {
 
   return (
     <main className="min-h-screen bg-[#FDFBF7] pb-20">
+        <script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      headline: blog.title,
+      description: blog.excerpt,
+      image: blog.image,
+      author: {
+        "@type": "Organization",
+        name: blog.author,
+      },
+      publisher: {
+        "@type": "Organization",
+        name: "Haridas Ayurveda",
+      },
+      datePublished: blog.createdAt,
+      dateModified: blog.updatedAt,
+    }),
+
+    
+  }}
+/>
       {/* --- FULL SCREEN HERO SECTION --- */}
       <section className="relative h-[70vh] w-full overflow-hidden">
         {blog.image ? (
@@ -144,25 +168,3 @@ export default async function BlogDetails({ params }) {
     </main>
   );
 }
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Article",
-      headline: blog.title,
-      description: blog.excerpt,
-      image: blog.image,
-      author: {
-        "@type": "Organization",
-        name: blog.author,
-      },
-      publisher: {
-        "@type": "Organization",
-        name: "Haridas Ayurveda",
-      },
-      datePublished: blog.createdAt,
-      dateModified: blog.updatedAt,
-    }),
-  }}
-/>
