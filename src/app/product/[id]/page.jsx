@@ -542,114 +542,153 @@ export default function ProductDetails() {
             </div>
 
             {/* PRODUCT DETAILS */}
-            <div className="lg:col-span-6 xl:col-span-7 flex flex-col space-y-8">
-              {/* ... All your product info, price, description, benefits remain the same ... */}
+            {/* PRODUCT DETAILS */}
+<div className="lg:col-span-6 xl:col-span-7 flex flex-col space-y-8">
+  {/* CATEGORY & TITLE */}
+  <section>
+    <div className="flex items-center gap-2 mb-3">
+      <span className="text-[9px] font-bold text-[#1B5E20] bg-[#1B5E20]/5 px-3 py-1 rounded border border-[#1B5E20]/10 tracking-widest uppercase">
+        {product.category}
+      </span>
+      <span className="text-[#A8B8AA] text-[9px] font-medium tracking-tighter">
+        ID: {product.id.slice(-6).toUpperCase()}
+      </span>
+    </div>
+    <h1 className="text-3xl md:text-4xl font-serif font-bold text-[#113B14] leading-tight mb-4">
+      {product.name}
+    </h1>
 
-              <section>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-[9px] font-bold text-[#1B5E20] bg-[#1B5E20]/5 px-3 py-1 rounded border border-[#1B5E20]/10 tracking-widest uppercase">
-                    {product.category}
-                  </span>
-                  <span className="text-[#A8B8AA] text-[9px] font-medium tracking-tighter">
-                    SKU: {product.id.slice(-6).toUpperCase()}
-                  </span>
-                </div>
-                <h1 className="text-2xl md:text-3xl xl:text-4xl font-serif font-bold text-[#113B14] leading-snug mb-3">
-                  {product.name}
-                </h1>
+    <div className="flex items-center gap-4">
+      <div className="flex items-baseline gap-2">
+        <span className="text-3xl font-serif font-bold text-[#1B5E20]">
+          ₹{product.priceAfterDiscount}
+        </span>
+        {product.originalPrice > product.priceAfterDiscount && (
+          <span className="text-lg text-gray-400 line-through">
+            ₹{product.originalPrice}
+          </span>
+        )}
+      </div>
+      {product.originalPrice > product.priceAfterDiscount && (
+        <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
+          SAVE ₹{product.originalPrice - product.priceAfterDiscount}
+        </span>
+      )}
+    </div>
+  </section>
 
-                <div className="flex items-center gap-4">
-                  <div className="flex items-baseline gap-2">
-                    <span className="text-2xl md:text-3xl font-serif font-bold text-[#1B5E20]">
-                      ₹{product.priceAfterDiscount}
-                    </span>
-                    {product.originalPrice > product.priceAfterDiscount && (
-                      <span className="text-sm text-gray-400 line-through">
-                        ₹{product.originalPrice}
-                      </span>
-                    )}
-                  </div>
-                  {product.originalPrice > product.priceAfterDiscount && (
-                    <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded border border-amber-100">
-                      {Math.round(
-                        ((product.originalPrice - product.priceAfterDiscount) /
-                          product.originalPrice) *
-                          100
-                      )}
-                      % OFF
-                    </span>
-                  )}
-                </div>
-              </section>
+  {/* 🌿 DESCRIPTION & WISDOM */}
+  <section className="prose prose-sm max-w-none">
+    <h4 className="font-serif text-[#113B14] text-lg mb-2">The Ritual Wisdom</h4>
+    <p className="text-[#4A5D4C] leading-relaxed italic">
+      "{product.description}"
+    </p>
+  </section>
 
-              {/* Ritual & Benefits sections remain unchanged */}
-
-              <section className="bg-white p-6 md:p-8 rounded-2xl border border-[#EAE3D9] shadow-sm space-y-6">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-[#113B14] uppercase tracking-widest text-[10px]">
-                    Quantity
-                  </span>
-                  <div className="flex items-center bg-[#FDFBF7] border border-[#EAE3D9] rounded-lg p-0.5">
-                    <button
-                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                      className="w-8 h-8 flex items-center justify-center text-[#1B5E20] hover:bg-white rounded transition-all"
-                    >
-                      —
-                    </button>
-                    <span className="w-8 text-center font-bold text-sm">
-                      {quantity}
-                    </span>
-                    <button
-                      onClick={() => setQuantity((q) => q + 1)}
-                      className="w-8 h-8 flex items-center justify-center text-[#1B5E20] hover:bg-white rounded transition-all"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <button
-                    onClick={handleAddToCart}
-                    className="flex-1 bg-[#1B5E20] text-white py-4 rounded-xl font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#124216] transition-all active:scale-[0.98] shadow-md shadow-[#1B5E20]/10"
-                  >
-                    Add to Bag • ₹{product.priceAfterDiscount * quantity}
-                  </button>
-
-                  <div className="flex gap-2">
-                    {/* <button className="hidden sm:flex px-6 items-center justify-center border border-[#1B5E20] text-[#1B5E20] rounded-xl font-bold text-[10px] uppercase tracking-widest hover:bg-green-50 transition-all">
-                      Buy Now
-                    </button> */}
-                    <button
-                      onClick={() => setIsWishlisted(!isWishlisted)}
-                      className={`p-4 rounded-xl border transition-all ${
-                        isWishlisted
-                          ? "bg-red-50 border-red-200 text-red-500 shadow-inner"
-                          : "border-[#EAE3D9] text-[#7F8C81] hover:border-[#1B5E20]"
-                      }`}
-                    >
-                      <svg
-                        className="w-5 h-5"
-                        fill={isWishlisted ? "currentColor" : "none"}
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="1.5"
-                          d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-
-                <p className="text-center text-[9px] text-[#A8B8AA] font-bold uppercase tracking-[0.1em]">
-                  Secure Checkout • Authentic Formulation • Express Shipping
-                </p>
-              </section>
+  {/* ✨ DYNAMIC BENEFITS ARRAY */}
+  {product.benefits && product.benefits.length > 0 && (
+    <section className="py-6 border-y border-[#1B5E20]/10">
+      <h4 className="font-bold text-[#113B14] uppercase tracking-widest text-[10px] mb-6">
+        Sacred Benefits
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {product.benefits.map((benefit, index) => (
+          <div key={index} className="flex items-start gap-3 group">
+            <div className="w-8 h-8 rounded-full bg-green-50 border border-green-100 flex items-center justify-center shrink-0 group-hover:bg-[#1B5E20] group-hover:text-white transition-colors">
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+              </svg>
             </div>
+            <p className="text-sm text-[#2C3B2E] font-medium pt-1 capitalize">
+              {benefit}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {/* PURCHASE CARD */}
+  <section className="bg-white p-6 md:p-8 rounded-3xl border border-[#EAE3D9] shadow-xl shadow-[#1B5E20]/5 space-y-6 relative overflow-hidden">
+    {/* Subtle Background Pattern */}
+    <div className="absolute top-0 right-0 opacity-[0.03] pointer-events-none">
+       <svg width="150" height="150" viewBox="0 0 100 100"><path d="M50 0 C70 30 100 50 70 70 C50 100 30 70 0 50 C30 30 50 0" fill="currentColor"/></svg>
+    </div>
+
+    <div className="flex items-center justify-between relative z-10">
+      <span className="font-bold text-[#113B14] uppercase tracking-widest text-[10px]">
+        Quantity
+      </span>
+      <div className="flex items-center bg-[#FDFBF7] border border-[#EAE3D9] rounded-xl p-1">
+        <button
+          onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+          className="w-10 h-10 flex items-center justify-center text-[#1B5E20] hover:bg-white rounded-lg transition-all"
+        >
+          —
+        </button>
+        <span className="w-10 text-center font-bold text-base">
+          {quantity}
+        </span>
+        <button
+          onClick={() => setQuantity((q) => q + 1)}
+          className="w-10 h-10 flex items-center justify-center text-[#1B5E20] hover:bg-white rounded-lg transition-all"
+        >
+          +
+        </button>
+      </div>
+    </div>
+
+    <div className="flex flex-col sm:flex-row gap-3 relative z-10">
+      <button
+        onClick={handleAddToCart}
+        className="flex-[2] bg-[#1B5E20] text-white py-4 rounded-2xl font-bold text-xs uppercase tracking-[0.2em] hover:bg-[#124216] transition-all active:scale-[0.98] shadow-lg shadow-[#1B5E20]/20"
+      >
+        Add to Bag • ₹{product.priceAfterDiscount * quantity}
+      </button>
+
+      <button
+        onClick={() => setIsWishlisted(!isWishlisted)}
+        className={`flex-1 p-4 rounded-2xl border flex items-center justify-center gap-2 transition-all ${
+          isWishlisted
+            ? "bg-red-50 border-red-200 text-red-500"
+            : "border-[#EAE3D9] text-[#7F8C81] hover:border-[#1B5E20]"
+        }`}
+      >
+        <svg
+          className="w-5 h-5"
+          fill={isWishlisted ? "currentColor" : "none"}
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="1.5"
+            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+          />
+        </svg>
+        <span className="text-[10px] font-bold uppercase tracking-widest sm:hidden lg:inline-block">
+          {isWishlisted ? 'Saved' : 'Wishlist'}
+        </span>
+      </button>
+    </div>
+
+    {/* <div className="flex justify-between items-center px-2">
+        <div className="flex items-center gap-1.5">
+            <span className="text-[14px]">🚚</span>
+            <span className="text-[10px] text-gray-500 font-medium">Free Shipping</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+            <span className="text-[14px]">🛡️</span>
+            <span className="text-[10px] text-gray-500 font-medium">100% Authentic</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+            <span className="text-[14px]">🔄</span>
+            <span className="text-[10px] text-gray-500 font-medium">Easy Returns</span>
+        </div>
+    </div> */}
+  </section>
+</div>
           </div>
         </div>
       </div>
