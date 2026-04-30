@@ -98,12 +98,12 @@ export default async function BlogDetails({ params }) {
                     <p className="text-[10px] font-bold text-[#A8B8AA] uppercase">Read Time</p>
                     <p className="text-xs font-bold text-[#113B14]">{blog.readingTime || "5"} Minutes</p>
                  </div>
-                 <div className="text-right">
+                 {/* <div className="text-right">
                     <p className="text-[10px] font-bold text-[#A8B8AA] uppercase">Published</p>
                     <p className="text-xs font-bold text-[#113B14]">
                       {new Date(blog.updatedAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                     </p>
-                 </div>
+                 </div> */}
               </div>
             </div>
 
